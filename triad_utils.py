@@ -3,7 +3,6 @@ from numpy import linalg as lin
 import random as rn
 
 # ------------------------------------
-
 def triad_census(matrix):
     
     A   = matrix
@@ -110,7 +109,11 @@ def swap_edges(edge_list):
         y0 = [x0[0],x1[1]]
         y1 = [x1[0],x0[1]]
 
+    #given two random edges x0, x1 between vertices x0[0]-x0[1] and x1[0]-x1[1] in the list of network edges, 
+    #swap the vertices such that the edge goes from x0[0]-x1[1] and x1[0]-x0[1]
+        
         if y0 in E or y1 in E or x0[0] == x1[1] or x1[0] == x0[1]:
+        #stop loop if the two resulting edges are already in the network
         # 3rd and 4th conditions are there to prevent the formation of self-loops
             marker = 0
         else:
@@ -130,6 +133,7 @@ def randomize(matrix,iterations):
     A = matrix
     E = edge_list(A)
     
+    #swap edges for as many iterations as given
     for i in range(iterations):
         E = swap_edges(E)
     
@@ -143,9 +147,9 @@ def triad_significance_profile(census, matrix, ensemble_size, edge_randomization
     ensemble = []
     
     p = census
-
+    profile = []
     for _ in range(ensemble_size):
-        profile = []
+        #profile = []
        # print("profile made")
         random_matrix = randomize(matrix,edge_randomizations)
         t = list(triad_census(random_matrix))
@@ -162,7 +166,10 @@ def triad_significance_profile(census, matrix, ensemble_size, edge_randomization
             profile.append(  (p[i]-m[i])/s[i]  )
            # print(profile)
 
-    return profile
+    norm = np.sqrt(sum(x**2 for x in profile))
+    normalized_profile = [x / norm for x in profile]
+
+    return normalized_profile
 # ------------------------------------
 
 def functions():
