@@ -171,6 +171,8 @@ def triad_significance_profile(census, matrix, ensemble_size, edge_randomization
 
     return normalized_profile
 # ------------------------------------
+#add a condition to assign the s.p. as 0 if the count is at 0
+#check milo paper for threshold on low triad counts
 
 def functions():
     return print(

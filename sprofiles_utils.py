@@ -55,12 +55,20 @@ def create_profile(network, step, file_name):
         G = convert_to_matrix(m)
         census = convert_to_regular_triads(nx.triadic_census(G))
         censuses.append(census)
-        significance_profile = triad_utils.triad_significance_profile(census,nx.adjacency_matrix(G).toarray(), 100,400)
-        sps.append(significance_profile)
+        with open(file_name + "_census.txt", "a") as file:
+           # string_census = census
+            file.write(str(census) + "\n")
+            print("s.p. successfully appended")
+        #significance_profile = triad_utils.triad_significance_profile(census,nx.adjacency_matrix(G).toarray(), 100,400)
+        #sps.append(significance_profile)
         #make the file name corresponding to the network, write significance profile to a text file
-        with open(file_name + ".txt", "w") as file:
-            string_profile = np.array(significance_profile).astype(str)
-            file.write(" ".join(string_profile) + "\n")
-    print("file successfully created")
-    return censuses, sps
 
+    print("file successfully created")
+    return censuses
+
+#save the censuses of the network in a text file
+#sepaarate census text file method and sp text file method
+#matrix -> average count and std dev. count of randomizations, all as separate files
+#see if there is a better way to use write wiithout converting the to a string
+#create a method to fetch  network info (network number, number of time steps, # of players, save in a text file)
+#add to readMe
